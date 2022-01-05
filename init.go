@@ -1,16 +1,20 @@
 package main
 
 import (
+	"crypto/sha256"
 	"fmt"
-	"strings"
-	"regexp"
+	"time"
 )
 
 
 func main() {
-	regex, _ := regexp.Compile(`([a-z]+)*([A-Z]+)*([1-9]+)*([@.]+)*`)
-	kata2 := regex.FindAllString("!?>!)@_!>?@?>Odosa1?>2-o12.312PROowqm1o12dsa><>@**!?>?>>!", -1)
-	saring := strings.Join(kata2, "")
-	fmt.Println(saring)
-	
+	text := "Mantap Boss"
+	salt := fmt.Sprintf("%d", time.Now().UnixNano())
+	combine := fmt.Sprintf("%s %s", text, salt)
+	fmt.Println(combine)
+	sha := sha256.New()
+	sha.Write([]byte(combine))
+	encText := sha.Sum(nil)
+	result := fmt.Sprintf("%x", encText)
+	fmt.Println(result)
 }
